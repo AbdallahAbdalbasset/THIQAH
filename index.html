@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THIQAH</title>
+
+<style>
+/* ===== GLOBAL ===== */
+:root {
+  --panel-size: min(88vw, 88vh);
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", Arial, sans-serif;
+  background: linear-gradient(
+    135deg,
+    #0e0e0e 0%,
+    #60422f 30%,
+    #a57d4d 65%,
+    #f9f9f9 100%
+  );
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== TITLE ===== */
+h1 {
+  margin: 25px 0;
+  letter-spacing: 4px;
+  color: white;
+}
+
+/* ===== BASE PANEL ===== */
+.panel {
+  width: var(--panel-size);
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ===== FIRST PANEL (AUTO HEIGHT) ===== */
+.all-panel {
+  height: auto;                 /* ✅ AUTO HEIGHT */
+  margin-bottom: 40px;
+}
+
+.all-panel img {
+  height: auto;
+  max-height: 90vh;
+  border-radius: 30px;
+
+}
+
+/* ===== FIXED SIZE PANELS ===== */
+.main-panel,
+.fixed-panel {
+  height: var(--panel-size);
+}
+
+/* ===== GALLERY ===== */
+.gallery-wrapper {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+
+/* ===== THUMBNAILS ===== */
+.vertical-thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(0,0,0,0.1);
+  backdrop-filter: blur(6px);
+}
+
+.vertical-thumbs img {
+  width: 70px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+  opacity: 0.65;
+  transition: 0.3s;
+}
+
+.vertical-thumbs img:hover,
+.vertical-thumbs img.selected {
+  opacity: 1;
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+}
+
+/* ===== MAIN PANEL ===== */
+.main-panel {
+  position: relative;
+}
+
+/* ===== ARROWS ===== */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.arrow:hover {
+  background: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.arrow.left { left: 15px; }
+.arrow.right { right: 15px; }
+
+/* ===== COLOR SELECTOR ===== */
+.color-selector {
+  position: absolute;
+  bottom: 18px;
+  display: flex;
+  gap: 14px;
+  background: rgba(255,255,255,0.9);
+  padding: 10px 16px;
+  border-radius: 30px;
+}
+
+.color-square {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.3s;
+}
+
+.color-square.selected {
+  border: 2px solid #111;
+  transform: scale(1.15);
+}
+
+/* ===== FIXED PANEL ===== */
+.fixed-panel {
+  margin-top: 40px;
+}
+
+/* ===== INFO & BUTTONS ===== */
+.info {
+  margin: 30px 0 12px;
+  font-weight: 600;
+  color: #111;
+}
+
+.order-buttons {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 50px;
+}
+
+.order-buttons a {
+  text-decoration: none;
+  padding: 14px 32px;
+  border-radius: 30px;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(135deg, #000, #444);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  transition: 0.3s;
+}
+
+.order-buttons a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .gallery-wrapper {
+    flex-direction: column;
+  }
+
+  .vertical-thumbs {
+    flex-direction: row;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<h1>THIQAH</h1>
+
+<div class="panel all-panel">
+  <img id="allImage">
+</div>
+
+<div class="gallery-wrapper">
+
+  <div class="vertical-thumbs" id="leftThumbs"></div>
+
+  <div class="panel main-panel">
+    <div class="arrow left" id="prev">&#10094;</div>
+    <img id="mainImage">
+    <div class="arrow right" id="next">&#10095;</div>
+
+    <div class="color-selector">
+      <div class="color-square selected" data-color="A" style="background:#60422f;"></div>
+      <div class="color-square" data-color="B" style="background:#0e0e0e;"></div>
+      <div class="color-square" data-color="C" style="background:#a57d4d;"></div>
+      <div class="color-square" data-color="D" style="background:#f9f9f9; border:1px solid #ccc;"></div>
+    </div>
+  </div>
+
+  <div class="vertical-thumbs" id="rightThumbs"></div>
+
+</div>
+
+<div class="panel fixed-panel">
+  <img src="ALL1.png">
+</div>
+
+<div class="info">Sizes: M, L, XL | Price: 599 LE</div>
+
+<div class="order-buttons">
+  <a href="https://wa.me/01553201907">WhatsApp</a>
+  <a href="tel:01553201907">Call</a>
+</div>
+
+<script>
+const images = {
+  A: ['A1.png','A2.png','A3.png','A4.png','A5.png','A6.png'],
+  B: ['B1.png','B2.png','B3.png','B4.png','B5.png','B6.png'],
+  C: ['C1.png','C2.png','C3.png','C4.png','C5.png','C6.png'],
+  D: ['D1.png','D2.png','D3.png','D4.png','D5.png','D6.png']
+};
+
+let currentColor = 'A';
+let currentIndex = 0;
+
+const mainImage = document.getElementById('mainImage');
+const leftThumbs = document.getElementById('leftThumbs');
+const rightThumbs = document.getElementById('rightThumbs');
+const colorSquares = document.querySelectorAll('.color-square');
+
+function updateGallery() {
+  mainImage.src = images[currentColor][currentIndex];
+  renderThumbs();
+  highlightColors();
+}
+
+function renderThumbs() {
+  leftThumbs.innerHTML = '';
+  rightThumbs.innerHTML = '';
+
+  images[currentColor].forEach((img, i) => {
+    const t = document.createElement('img');
+    t.src = img;
+    if (i === currentIndex) t.classList.add('selected');
+    t.onclick = () => { currentIndex = i; updateGallery(); };
+    (i < 3 ? leftThumbs : rightThumbs).appendChild(t);
+  });
+}
+
+function highlightColors() {
+  colorSquares.forEach(s =>
+    s.classList.toggle('selected', s.dataset.color === currentColor)
+  );
+}
+
+document.getElementById('prev').onclick = () => {
+  currentIndex = (currentIndex - 1 + images[currentColor].length) % images[currentColor].length;
+  updateGallery();
+};
+
+document.getElementById('next').onclick = () => {
+  currentIndex = (currentIndex + 1) % images[currentColor].length;
+  updateGallery();
+};
+
+colorSquares.forEach(sq => {
+  sq.onclick = () => {
+    currentColor = sq.dataset.color;
+    currentIndex = 0;
+    updateGallery();
+  };
+});
+
+const allImages = ['A-ALL.png','B-ALL.png','C-ALL.png','D-ALL.png'];
+let allIndex = 0;
+const allImage = document.getElementById('allImage');
+
+setInterval(() => {
+  allImage.src = allImages[allIndex];
+  allIndex = (allIndex + 1) % allImages.length;
+}, 1200);
+
+updateGallery();
+</script>
+
+</body>
+</html>
