@@ -7,7 +7,7 @@
 
 <style>
 :root {
-  --panel-size: min(88vw, 88vh);
+  --panel-width: min(88vw, 88vh);
   --thumb-size: 70px;
 }
 
@@ -17,8 +17,8 @@ body {
   background: linear-gradient(
     135deg,
     #0e0e0e 0%,
-    #60422f 30%,
-    #a57d4d 65%,
+    #60422f 20%,
+    #a57d4d 40%,
     #f9f9f9 100%
   );
   min-height: 100vh;
@@ -69,74 +69,7 @@ h1 {
   max-width: 1200px;
 }
 
-.main-panel {
-  height: var(--panel-size);
-  width: 100%;
-  max-width: 70vw;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 15px;
-}
-
-.arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.85);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.arrow:hover {
-  background: white;
-  transform: translateY(-50%) scale(1.1);
-}
-
-.arrow.left { left: 15px; }
-.arrow.right { right: 15px; }
-
-/* ===== COLOR SELECTOR AT BOTTOM ===== */
-.color-selector {
-  position: absolute;
-  bottom: 12px; /* slightly above the bottom */
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 12px;
-  background: rgba(255,255,255,0.85);
-  padding: 8px 12px;
-  border-radius: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-.color-square {
-  width: calc(var(--panel-size) / 10);
-  aspect-ratio: 1 / 1;
-  border-radius: 12%;
-  cursor: pointer;
-  transition: 0.3s;
-  flex-shrink: 0;
-  background-color: #ccc; /* fallback */
-  background-size: cover;
-  background-position: center;
-}
-
-.color-square.selected {
-  border: 2px solid #111;
-  transform: scale(1.2);
-}
-
-
-/* ===== HORIZONTAL THUMBNAILS ===== */
+/* ===== HORIZONTAL THUMBNAILS ABOVE MAIN PANEL ===== */
 .horizontal-thumbs {
   display: flex;
   gap: 10px;
@@ -146,9 +79,8 @@ h1 {
   background: rgba(255,255,255,0.7);
   border: 1px solid rgba(0,0,0,0.1);
   backdrop-filter: blur(6px);
-
   width: max-content;
-  margin: 0 auto;
+  margin-bottom: 15px;
 }
 
 .horizontal-thumbs img {
@@ -169,11 +101,82 @@ h1 {
   box-shadow: 0 6px 14px rgba(0,0,0,0.3);
 }
 
+/* ===== MAIN PANEL (VERTICAL) ===== */
+.main-panel {
+  width: 90vw;
+  max-width: 400px; /* narrower horizontally */
+  aspect-ratio: 10 / 16; /* vertical */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.arrow {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.arrow:hover {
+  background: white;
+  transform: translateX(-50%) scale(1.1);
+}
+
+.arrow.left { top: 15px; }   /* now up */
+.arrow.right { bottom: 15px; } /* now down */
+
+/* ===== COLOR SELECTOR AT BOTTOM OF MAIN PANEL ===== */
+.color-selector {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  background: rgba(255,255,255,0.85);
+  padding: 8px 12px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.color-square {
+  width: calc(var(--panel-width) / 10);
+  aspect-ratio: 1 / 1;
+  border-radius: 12%;
+  cursor: pointer;
+  transition: 0.3s;
+  flex-shrink: 0;
+  background-color: #ccc; /* fallback */
+  background-size: cover;
+  background-position: center;
+}
+
+.color-square.selected {
+  border: 2px solid #111;
+  transform: scale(1.2);
+}
+
+/* ===== LAST PANEL WITHOUT BACKGROUND ===== */
 .fixed-panel {
   width: 90vw;
   max-width: 1200px;
   height: auto;
   margin-top: 40px;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
 }
 
 .fixed-panel img {
@@ -212,22 +215,22 @@ h1 {
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   :root {
-    --panel-size: 60vw;
+    --panel-width: 60vw;
     --thumb-size: 50px;
   }
-  .main-panel { max-width: 60vw; }
+  .main-panel { max-width: 60vw; aspect-ratio: 8/16; }
   .horizontal-thumbs { max-width: 60vw; }
-  .color-square { width: calc(var(--panel-size)/10); }
+  .color-square { width: calc(var(--panel-width)/10); }
 }
 
 @media (max-width: 768px) {
   :root {
-    --panel-size: 50vw;
+    --panel-width: 90vw;
     --thumb-size: 40px;
   }
-  .main-panel { max-width: 90vw; }
+  .main-panel { max-width: 90vw; aspect-ratio: 8/16; }
   .horizontal-thumbs { max-width: 90vw; }
-  .color-square { width: calc(var(--panel-size)/8); }
+  .color-square { width: calc(var(--panel-width)/8); }
 }
 </style>
 </head>
@@ -236,33 +239,35 @@ h1 {
 
 <h1>THIQAH</h1>
 
+<!-- ALL PANEL -->
 <div class="panel all-panel">
   <img id="allImage">
 </div>
 
 <div class="gallery-wrapper">
 
+  <!-- HORIZONTAL THUMBNAILS ABOVE MAIN PANEL -->
+  <div class="horizontal-thumbs" id="thumbs"></div>
+
+  <!-- MAIN PANEL -->
   <div class="panel main-panel">
     <div class="arrow left" id="prev">&#10094;</div>
     <img id="mainImage">
     <div class="arrow right" id="next">&#10095;</div>
 
     <!-- Color Selector at Bottom -->
-    <!-- Color Selector at Bottom -->
-<div class="color-selector">
-  <div class="color-square selected" data-color="A" style="background-image:url('A1.png'); background-size:cover; background-position:center;"></div>
-  <div class="color-square" data-color="B" style="background-image:url('B1.png'); background-size:cover; background-position:center;"></div>
-  <div class="color-square" data-color="C" style="background-image:url('C1.png'); background-size:cover; background-position:center;"></div>
-  <div class="color-square" data-color="D" style="background-image:url('D1.png'); background-size:cover; background-position:center;"></div>
-</div>
+    <div class="color-selector">
+      <div class="color-square selected" data-color="A" style="background-image:url('A1.png');"></div>
+      <div class="color-square" data-color="B" style="background-image:url('B1.png');"></div>
+      <div class="color-square" data-color="C" style="background-image:url('C1.png');"></div>
+      <div class="color-square" data-color="D" style="background-image:url('D1.png');"></div>
+    </div>
 
   </div>
 
-  <!-- Horizontal Thumbnails -->
-  <div class="horizontal-thumbs" id="thumbs"></div>
-
 </div>
 
+<!-- LAST PANEL WITHOUT BACKGROUND -->
 <div class="panel fixed-panel">
   <img src="ALL1.png">
 </div>
