@@ -106,27 +106,25 @@ h1 {
 
 .color-selector {
   position: absolute;
-  bottom: 18px;
+  bottom: 12px; /* closer to the main image */
   display: flex;
-  gap: 14px;
+  gap: 8px;      /* smaller gap between squares */
   background: rgba(255,255,255,0.9);
-  padding: 10px 16px;
-  border-radius: 30px;
+  padding: 6px 10px; /* smaller padding */
+  border-radius: 20px;
 }
 
 .color-square {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: 0.3s;
+  width: 20px;   /* smaller squares */
+  height: 20px;
+  border-radius: 5px;
 }
 
 .color-square.selected {
   border: 2px solid #111;
-  transform: scale(1.15);
+  transform: scale(1.2); /* slightly smaller scale effect */
 }
+
 
 /* ===== HORIZONTAL THUMBNAILS ===== */
 .horizontal-thumbs {
