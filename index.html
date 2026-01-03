@@ -63,52 +63,21 @@ h1 {
 
 .gallery-wrapper {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
   align-items: center;
   width: 90vw;
   max-width: 1200px;
-  flex-wrap: nowrap;
-}
-
-.vertical-thumbs {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 10px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.7);
-  border: 1px solid rgba(0,0,0,0.1);
-  backdrop-filter: blur(6px);
-  flex-shrink: 0;
-  max-height: var(--panel-size);
-  overflow-y: auto;
-}
-
-.vertical-thumbs img {
-  width: var(--thumb-size);
-  height: calc(var(--thumb-size) * 1.3);
-  object-fit: cover;
-  border-radius: 12px;
-  cursor: pointer;
-  opacity: 0.6;
-  transition: 0.3s;
-}
-
-.vertical-thumbs img.selected,
-.vertical-thumbs img:hover {
-  opacity: 1;
-  transform: scale(1.05);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.3);
 }
 
 .main-panel {
   height: var(--panel-size);
-  flex-grow: 1;
+  width: 100%;
   max-width: 70vw;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 15px;
 }
 
 .arrow {
@@ -159,6 +128,40 @@ h1 {
   transform: scale(1.15);
 }
 
+/* ===== HORIZONTAL THUMBNAILS ===== */
+.horizontal-thumbs {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 10px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(0,0,0,0.1);
+  backdrop-filter: blur(6px);
+
+  width: max-content;
+  margin: 0 auto; /* center under main panel */
+}
+
+
+.horizontal-thumbs img {
+  width: var(--thumb-size);
+  height: calc(var(--thumb-size) * 1.3);
+  object-fit: cover;
+  border-radius: 12px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: 0.3s;
+  flex-shrink: 0;
+}
+
+.horizontal-thumbs img.selected,
+.horizontal-thumbs img:hover {
+  opacity: 1;
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+}
+
 .fixed-panel {
   width: 90vw;
   max-width: 1200px;
@@ -205,37 +208,22 @@ h1 {
     --thumb-size: 50px;
   }
   .main-panel { max-width: 60vw; }
+  .horizontal-thumbs { max-width: 60vw; }
 }
+
 @media (max-width: 768px) {
   :root {
     --panel-size: 60vw;
     --thumb-size: 40px;
   }
 
-  /* Keep gallery side by side */
-  .gallery-wrapper {
-    flex-direction: row; /* <- was column, now row */
-    align-items: center;
-    justify-content: center;
-  }
-
-  .vertical-thumbs {
-    max-height: var(--panel-size);
-    width: auto;
-    flex-direction: column; /* keep vertical */
-    overflow-y: auto;
-  }
-
-  .main-panel {
-    max-width: 50vw; /* shrink main panel to fit mobile */
-  }
-
+  .main-panel { max-width: 80vw; }
+  .horizontal-thumbs { max-width: 80vw; }
   .arrow {
     width: 38px;
     height: 38px;
   }
 }
-
 </style>
 </head>
 
@@ -248,8 +236,6 @@ h1 {
 </div>
 
 <div class="gallery-wrapper">
-
-  <div class="vertical-thumbs" id="leftThumbs"></div>
 
   <div class="panel main-panel">
     <div class="arrow left" id="prev">&#10094;</div>
@@ -264,7 +250,9 @@ h1 {
     </div>
   </div>
 
-  <div class="vertical-thumbs" id="rightThumbs"></div>
+  <!-- Horizontal Thumbnails -->
+  <div class="horizontal-thumbs" id="thumbs"></div>
+
 
 </div>
 
@@ -291,8 +279,7 @@ let currentColor = 'A';
 let currentIndex = 0;
 
 const mainImage = document.getElementById('mainImage');
-const leftThumbs = document.getElementById('leftThumbs');
-const rightThumbs = document.getElementById('rightThumbs');
+const thumbs = document.getElementById('thumbs');
 const colorSquares = document.querySelectorAll('.color-square');
 
 function updateGallery() {
@@ -302,15 +289,13 @@ function updateGallery() {
 }
 
 function renderThumbs() {
-  leftThumbs.innerHTML = '';
-  rightThumbs.innerHTML = '';
-
+  thumbs.innerHTML = '';
   images[currentColor].forEach((img, i) => {
     const t = document.createElement('img');
     t.src = img;
     if (i === currentIndex) t.classList.add('selected');
     t.onclick = () => { currentIndex = i; updateGallery(); };
-    (i < 3 ? leftThumbs : rightThumbs).appendChild(t);
+    thumbs.appendChild(t);
   });
 }
 
@@ -343,10 +328,8 @@ const allImages = ['A-ALL.png','B-ALL.png','C-ALL.png','D-ALL.png'];
 let allIndex = 0;
 const allImage = document.getElementById('allImage');
 
-// Set first image immediately
 allImage.src = allImages[allIndex];
 
-// Then start interval
 setInterval(() => {
   allIndex = (allIndex + 1) % allImages.length;
   allImage.src = allImages[allIndex];
