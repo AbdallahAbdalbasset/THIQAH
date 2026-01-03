@@ -219,19 +219,23 @@ h1 {
   .horizontal-thumbs { max-width: 60vw; }
 }
 
+/* ===== COLOR SELECTOR RESPONSIVE ADJUSTMENT ===== */
 @media (max-width: 768px) {
-  :root {
-    --panel-size: 60vw;
-    --thumb-size: 40px;
+  .color-selector {
+    width: 50px;           /* smaller width */
+    padding: 6px;           /* smaller padding */
+    top: 50%;               /* center vertically */
+    bottom: auto;           /* remove stretching */
+    transform: translateY(-50%);
   }
 
-  .main-panel { max-width: 80vw; }
-  .horizontal-thumbs { max-width: 80vw; }
-  .arrow {
-    width: 38px;
-    height: 38px;
+  .color-square {
+    width: 80%;             /* smaller squares */
+    aspect-ratio: 1 / 1;
+    border-radius: 12%;
   }
 }
+
 </style>
 </head>
 
