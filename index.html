@@ -206,24 +206,28 @@ h1 {
   }
   .main-panel { max-width: 60vw; }
 }
-
 @media (max-width: 768px) {
   :root {
-    --panel-size: 70vw;
+    --panel-size: 60vw;
     --thumb-size: 40px;
   }
 
+  /* Keep gallery side by side */
   .gallery-wrapper {
-    flex-direction: column;
+    flex-direction: row; /* <- was column, now row */
     align-items: center;
+    justify-content: center;
   }
 
   .vertical-thumbs {
-    flex-direction: row;
-    max-height: none;
-    width: 90%;
-    overflow-x: auto;
-    justify-content: center;
+    max-height: var(--panel-size);
+    width: auto;
+    flex-direction: column; /* keep vertical */
+    overflow-y: auto;
+  }
+
+  .main-panel {
+    max-width: 50vw; /* shrink main panel to fit mobile */
   }
 
   .arrow {
@@ -231,6 +235,7 @@ h1 {
     height: 38px;
   }
 }
+
 </style>
 </head>
 
