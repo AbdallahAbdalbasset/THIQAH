@@ -54,9 +54,9 @@ h1 {
 }
 
 .all-panel img {
-  border-radius: 30px;
   height: auto;
   max-height: 90vh;
+  border-radius: 30px;
 }
 
 .main-panel,
@@ -183,13 +183,19 @@ h1 {
 }
 
 @media (max-width: 768px) {
+  :root {
+    --panel-size: 70vw;
+  }
+
   .vertical-thumbs img {
-    width: 52px;
+    width: 50px;
     height: 68px;
   }
 
   .gallery-wrapper {
     gap: 10px;
+    flex-direction: row;
+    align-items: center;
   }
 
   .arrow {
