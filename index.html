@@ -106,24 +106,34 @@ h1 {
 
 .color-selector {
   position: absolute;
-  bottom: 12px; /* closer to the main image */
+  left: 15px;             
+  top: calc(50% + 22px);  
+  bottom: 15px;           
   display: flex;
-  gap: 8px;      /* smaller gap between squares */
-  background: rgba(255,255,255,0.9);
-  padding: 6px 10px; /* smaller padding */
-  border-radius: 20px;
+  flex-direction: column;
+  justify-content: space-around; /* better spacing */
+  align-items: center;
+  background: #ccc;
+  border-radius: 15px;
+
+  width: calc(0.1 * (100% - 37px));
+  padding: 10px 6px;
 }
 
 .color-square {
-  width: 20px;   /* smaller squares */
-  height: 20px;
-  border-radius: 5px;
+  width: 65%; /* 20% of panel width */
+  aspect-ratio: 1 / 1; /* keep square shape */
+  border-radius: 15%;   /* proportional rounding */
+  flex-shrink: 0;
 }
 
 .color-square.selected {
   border: 2px solid #111;
-  transform: scale(1.2); /* slightly smaller scale effect */
+  transform: scale(1.2);
 }
+
+
+
 
 
 /* ===== HORIZONTAL THUMBNAILS ===== */
